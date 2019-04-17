@@ -30,11 +30,12 @@ for(String key: request.getParameterMap().keySet()) {
 	}
 }
 out.write(task.toString());
-System.out.println(db("create table ttt (id int primary key)"));
+//System.out.println(db("create table ttt (id int primary key)"));
 //System.out.println(db("insert into xxx values (1,'xef')"));
 //System.out.println(db("insert into xxx values (2,'fff')"));
 //System.out.println(db("select * from xxx OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY"));
-//System.out.println(db("show tables"));
+//System.out.println(db("tables"));
+//System.out.println(db("columns"));
 //out.write(dodb(request).toString());
  * 
  * @author luob4
@@ -100,9 +101,20 @@ public class Index3 {
 				}
 				return r;
 			}
-			else {
+			else if(sql.toLowerCase().indexOf("tables")==0 ) {
 				CachedRowSet crs = new CachedRowSetImpl();  
-				crs.populate(conn.getMetaData().getTables(null, null, "%", new String[]{"TABLE"}));
+				crs.populate(conn.getMetaData().getTables(null, null, null, null));
+				ResultSetMetaData md = crs.getMetaData();
+				Map r = new HashMap();
+				for(int i=0, len=md.getColumnCount(); i<len; i++) {
+					int idx = i+1;
+					r.put(md.getColumnLabel(idx), crs.toCollection(idx));
+				}
+				return r;
+			}
+			else {//columns
+				CachedRowSet crs = new CachedRowSetImpl();  
+				crs.populate(conn.getMetaData().getColumns(null, null, null, null));
 				ResultSetMetaData md = crs.getMetaData();
 				Map r = new HashMap();
 				for(int i=0, len=md.getColumnCount(); i<len; i++) {
