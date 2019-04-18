@@ -71,6 +71,7 @@ public class Index3 {
 		//create table xxx (id int primary key);
 		//alter table xxx add column ccc varchar(255);
 		//tb-a-b-c-d-e-f-g
+		//q=t-f=a=t=a=f=a=id=xxxx  insert/update
 		return "select fff,fff,fff from tttt where qqq=vvv and qqq=vvv and qqq=vvv and id<maxid order by id desc";
 	}
 	
